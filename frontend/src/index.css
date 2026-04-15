@@ -1,0 +1,92 @@
+@import "tailwindcss";
+
+@theme {
+  --color-neon-purple: #a855f7;
+  --color-neon-cyan: #06b6d4;
+  --color-neon-purple-dim: #7c3aed;
+  --color-neon-cyan-dim: #0891b2;
+  --color-surface: #0a0a0f;
+  --color-surface-light: #12121a;
+  --color-surface-card: #1a1a2e;
+  --color-surface-hover: #22223a;
+  --color-border-glass: rgba(168, 85, 247, 0.15);
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+/* ── Base ──────────────────────────────────────────── */
+body {
+  background-color: var(--color-surface);
+  color: #e2e8f0;
+  font-family: var(--font-sans);
+  overflow-x: hidden;
+}
+
+/* ── Scrollbar ─────────────────────────────────────── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--color-surface); }
+::-webkit-scrollbar-thumb { background: var(--color-neon-purple); border-radius: 999px; }
+
+/* ── Glass Utility ─────────────────────────────────── */
+.glass {
+  background: rgba(26, 26, 46, 0.6);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(168, 85, 247, 0.12);
+}
+
+.glass-strong {
+  background: rgba(26, 26, 46, 0.85);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(168, 85, 247, 0.2);
+}
+
+/* ── Glow Effects ──────────────────────────────────── */
+.glow-purple {
+  box-shadow: 0 0 20px rgba(168, 85, 247, 0.3), 0 0 60px rgba(168, 85, 247, 0.1);
+}
+
+.glow-cyan {
+  box-shadow: 0 0 20px rgba(6, 182, 212, 0.3), 0 0 60px rgba(6, 182, 212, 0.1);
+}
+
+.text-glow-purple {
+  text-shadow: 0 0 20px rgba(168, 85, 247, 0.5);
+}
+
+.text-glow-cyan {
+  text-shadow: 0 0 20px rgba(6, 182, 212, 0.5);
+}
+
+/* ── Gradient Text ─────────────────────────────────── */
+.gradient-text {
+  background: linear-gradient(135deg, #a855f7, #06b6d4);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ── Animated Gradient Border ──────────────────────── */
+.gradient-border {
+  position: relative;
+}
+.gradient-border::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  background: linear-gradient(135deg, #a855f7, #06b6d4, #a855f7);
+  background-size: 200% 200%;
+  animation: gradientShift 4s ease infinite;
+  z-index: -1;
+}
+@keyframes gradientShift {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+/* ── Particle animation helper ─────────────────────── */
+@keyframes float {
+  0%, 100% { transform: translateY(0) scale(1); opacity: 0.3; }
+  50% { transform: translateY(-30px) scale(1.1); opacity: 0.6; }
+}

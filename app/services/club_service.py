@@ -16,6 +16,7 @@ def list_clubs(
     limit: int = 20,
     category: str | None = None,
     search: str | None = None,
+    admin_id: str | None = None,
 ) -> list[dict]:
     """Return paginated list of active clubs with member counts."""
     query = db.query(Club).filter(Club.is_active == True)
@@ -23,6 +24,8 @@ def list_clubs(
         query = query.filter(Club.category == category)
     if search:
         query = query.filter(Club.name.ilike(f"%{search}%"))
+    if admin_id:
+        query = query.filter(Club.admin_id == admin_id)
     clubs = query.offset(skip).limit(limit).all()
     result = []
     for club in clubs:

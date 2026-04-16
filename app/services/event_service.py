@@ -13,12 +13,20 @@ from app.utils.qr import generate_qr_token, generate_qr_image_base64
 
 
 def list_events(
-    db: Session, skip: int = 0, limit: int = 20, club_id: UUID | None = None
+    db: Session, skip: int = 0, limit: int = 20,
+    club_id: UUID | None = None, admin_id: str | None = None,
 ) -> list[dict]:
     """Return paginated list of events."""
     query = db.query(Event)
     if club_id:
         query = query.filter(Event.club_id == club_id)
+    if admin_id:
+        # Only events for clubs owned by this admin
+        admin_club_ids = (
+            db.query(Club.id).filter(Club.admin_id == admin_id, Club.is_active == True).all()
+        )
+        admin_club_ids = [c[0] for c in admin_club_ids]
+        query = query.filter(Event.club_id.in_(admin_club_ids))
     events = query.order_by(Event.start_time.desc()).offset(skip).limit(limit).all()
     result = []
     for e in events:

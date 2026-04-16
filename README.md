@@ -155,3 +155,10 @@ Create PostgreSQL database: CREATE DATABASE clubconnect;
 Run migrations: alembic revision --autogenerate -m "initial" && alembic upgrade head
 Start server: uvicorn app.main:app --reload --port 8000
 Open http://localhost:8000/docs to test
+
+
+
+
+
+While application are shown, user data is not shown for the users who have appled
+Clubs Admins should only be shown there own clubs, events and etc. basically, no access to other's club data

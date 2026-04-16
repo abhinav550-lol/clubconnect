@@ -17,12 +17,14 @@ def list_clubs(
     pagination: PaginationParams = Depends(),
     category: str | None = Query(None),
     search: str | None = Query(None),
+    admin_id: str | None = Query(None),
     db: Session = Depends(get_db),
     _: User = Depends(get_current_user),
 ):
     """List active clubs with optional category filter and search."""
     return club_service.list_clubs(
-        db, skip=pagination.skip, limit=pagination.limit, category=category, search=search
+        db, skip=pagination.skip, limit=pagination.limit,
+        category=category, search=search, admin_id=admin_id,
     )
 
 

@@ -157,7 +157,16 @@ export default function ApplicationsPage() {
             {pending.map((a) => (
               <GlassCard key={a.id} hover={false} className="!p-4 flex items-center justify-between">
                 <div className="flex-1 min-w-0">
-                  <h3 className="text-white font-medium">{a.club_name}</h3>
+                  <div className="flex items-center gap-2 mb-1">
+                    <div className="w-7 h-7 rounded-full bg-gradient-to-br from-neon-purple to-neon-cyan flex items-center justify-center text-white text-xs font-bold shrink-0">
+                      {a.user_name?.charAt(0) || '?'}
+                    </div>
+                    <div>
+                      <h3 className="text-white font-medium text-sm">{a.user_name || 'Unknown'}</h3>
+                      <p className="text-xs text-gray-500">{a.user_email}</p>
+                    </div>
+                  </div>
+                  <p className="text-xs text-neon-cyan mt-1">→ {a.club_name}</p>
                   <p className="text-xs text-gray-400 line-clamp-1 mt-0.5">"{a.statement}"</p>
                   <p className="text-xs text-gray-500 mt-1">Applied {new Date(a.created_at).toLocaleDateString()}</p>
                 </div>
@@ -183,9 +192,14 @@ export default function ApplicationsPage() {
               const Icon = cfg.icon;
               return (
                 <GlassCard key={a.id} hover={false} className="!p-4 flex items-center justify-between opacity-70">
-                  <div>
-                    <h3 className="text-white font-medium">{a.club_name}</h3>
-                    <p className="text-xs text-gray-500 mt-0.5">"{a.statement}"</p>
+                  <div className="flex items-center gap-3">
+                    <div className="w-7 h-7 rounded-full bg-white/10 flex items-center justify-center text-white text-xs font-bold shrink-0">
+                      {a.user_name?.charAt(0) || '?'}
+                    </div>
+                    <div>
+                      <h3 className="text-white font-medium text-sm">{a.user_name || 'Unknown'}</h3>
+                      <p className="text-xs text-gray-500">{a.club_name} · "{a.statement.slice(0, 60)}..."</p>
+                    </div>
                   </div>
                   <span className={`inline-flex items-center gap-1 text-xs px-2.5 py-1 rounded-full ${cfg.bg} ${cfg.color} border ${cfg.border}`}>
                     <Icon className="w-3 h-3" /> {a.status}
@@ -202,6 +216,15 @@ export default function ApplicationsPage() {
         {selectedApp && (
           <div className="space-y-4">
             <div>
+              <div className="flex items-center gap-3 mb-3">
+                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-neon-purple to-neon-cyan flex items-center justify-center text-white font-bold">
+                  {selectedApp.user_name?.charAt(0) || '?'}
+                </div>
+                <div>
+                  <p className="text-white font-medium">{selectedApp.user_name || 'Unknown'}</p>
+                  <p className="text-xs text-gray-400">{selectedApp.user_email}</p>
+                </div>
+              </div>
               <p className="text-sm text-gray-400">Club: <span className="text-white font-medium">{selectedApp.club_name}</span></p>
               <p className="text-sm text-gray-400 mt-2">Statement:</p>
               <p className="text-white text-sm bg-white/5 rounded-lg p-3 mt-1">{selectedApp.statement}</p>

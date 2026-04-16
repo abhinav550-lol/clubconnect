@@ -55,6 +55,8 @@ def get_my_applications(db: Session, user: User) -> list[dict]:
             {
                 "id": a.id,
                 "user_id": a.user_id,
+                "user_name": user.full_name,
+                "user_email": user.email,
                 "club_id": a.club_id,
                 "club_name": club.name if club else "",
                 "statement": a.statement,
@@ -78,10 +80,13 @@ def get_club_applications(db: Session, club_id: UUID, admin: User) -> list[dict]
     apps = db.query(Application).filter(Application.club_id == club_id).all()
     result = []
     for a in apps:
+        applicant = db.query(User).filter(User.id == a.user_id).first()
         result.append(
             {
                 "id": a.id,
                 "user_id": a.user_id,
+                "user_name": applicant.full_name if applicant else "",
+                "user_email": applicant.email if applicant else "",
                 "club_id": a.club_id,
                 "club_name": club.name,
                 "statement": a.statement,

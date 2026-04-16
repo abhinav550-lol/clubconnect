@@ -30,11 +30,17 @@ export default function EventsPage() {
   useEffect(() => {
     const load = async () => {
       try {
-        const [evRes] = await Promise.allSettled([eventsApi.list({ limit: 50 })]);
+        const isClubAdmin = user?.role === 'club_admin';
+        const [evRes] = await Promise.allSettled([
+          eventsApi.list({ limit: 50, admin_id: isClubAdmin ? user?.id : undefined }),
+        ]);
         if (evRes.status === 'fulfilled') setEvents(evRes.value.data);
         if (canCreate) {
-          const { data } = await clubsApi.list({ limit: 100 });
-          setClubs(data.filter((c: Club) => c.admin_id === user?.id || user?.role === 'super_admin'));
+          const { data } = await clubsApi.list({
+            limit: 100,
+            admin_id: isClubAdmin ? user?.id : undefined,
+          });
+          setClubs(user?.role === 'super_admin' ? data : data);
         }
       } finally {
         setLoading(false);

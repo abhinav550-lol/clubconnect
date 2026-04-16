@@ -20,11 +20,15 @@ router = APIRouter(prefix="/events", tags=["Events"])
 def list_events(
     pagination: PaginationParams = Depends(),
     club_id: UUID | None = Query(None),
+    admin_id: str | None = Query(None),
     db: Session = Depends(get_db),
     _: User = Depends(get_current_user),
 ):
     """List events with optional club filter."""
-    return event_service.list_events(db, skip=pagination.skip, limit=pagination.limit, club_id=club_id)
+    return event_service.list_events(
+        db, skip=pagination.skip, limit=pagination.limit,
+        club_id=club_id, admin_id=admin_id,
+    )
 
 
 @router.post("/", response_model=EventOut, status_code=201)

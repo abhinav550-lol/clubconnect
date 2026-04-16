@@ -37,6 +37,8 @@ export interface ClubMember {
 export interface Application {
   id: string;
   user_id: string;
+  user_name: string;
+  user_email: string;
   club_id: string;
   club_name: string;
   statement: string;

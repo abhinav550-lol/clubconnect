@@ -30,10 +30,12 @@ export default function ClubsPage() {
   useEffect(() => {
     const load = async () => {
       try {
+        const isClubAdmin = user?.role === 'club_admin';
         const { data } = await clubsApi.list({
           limit: 50,
           search: search || undefined,
           category: filter !== 'All' ? filter : undefined,
+          admin_id: isClubAdmin ? user?.id : undefined,
         });
         setClubs(data);
       } finally {
@@ -43,7 +45,7 @@ export default function ClubsPage() {
     setLoading(true);
     const timer = setTimeout(load, 300);
     return () => clearTimeout(timer);
-  }, [search, filter]);
+  }, [search, filter, user]);
 
   const handleCreate = async () => {
     if (!newClub.name.trim()) return;
@@ -77,10 +79,7 @@ export default function ClubsPage() {
     }
   };
 
-  // For club admins, show owned clubs first
-  const displayClubs = user?.role === 'club_admin'
-    ? [...clubs].sort((a, b) => (a.admin_id === user?.id ? -1 : 0) - (b.admin_id === user?.id ? -1 : 0))
-    : clubs;
+  const displayClubs = clubs;
 
   return (
     <div className="space-y-6">

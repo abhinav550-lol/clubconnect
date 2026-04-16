@@ -2,7 +2,7 @@ import api from './api';
 import type { Club, ClubMember } from '../types';
 
 export const clubsApi = {
-  list: (params?: { skip?: number; limit?: number; category?: string; search?: string }) =>
+  list: (params?: { skip?: number; limit?: number; category?: string; search?: string; admin_id?: string }) =>
     api.get<Club[]>('/clubs/', { params }),
 
   get: (id: string) => api.get<Club>(`/clubs/${id}`),

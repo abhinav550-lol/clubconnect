@@ -2,7 +2,7 @@ import api from './api';
 import type { Event } from '../types';
 
 export const eventsApi = {
-  list: (params?: { skip?: number; limit?: number; club_id?: string }) =>
+  list: (params?: { skip?: number; limit?: number; club_id?: string; admin_id?: string }) =>
     api.get<Event[]>('/events/', { params }),
 
   get: (id: string) => api.get<Event>(`/events/${id}`),

@@ -24,6 +24,8 @@ class ApplicationReview(BaseModel):
 class ApplicationOut(BaseModel):
     id: uuid.UUID
     user_id: uuid.UUID
+    user_name: str = ""
+    user_email: str = ""
     club_id: uuid.UUID
     club_name: str = ""
     statement: str
